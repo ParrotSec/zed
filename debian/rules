@@ -1,0 +1,71 @@
+#!/usr/bin/make -f
+
+export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+
+include /usr/share/dpkg/default.mk
+
+UPSTREAM_VERSION := $(shell dpkg-parsechangelog -S Version | sed -e 's/-[^-]*$$//')
+
+# Parrot's rustc is older than zed requires. Fetch the exact toolchain upstream
+# pins, verified against debian/toolchain-checksums, and use it from a private
+# prefix inside the source tree.
+RUST_VERSION    := 1.98.1
+RUST_HOME       := $(CURDIR)/debian/rust
+TOOLCHAIN_CACHE := $(CURDIR)/debian/toolchain
+RUST_TRIPLE     := $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE | sed 's/-linux-gnu$$/-unknown-linux-gnu/')
+RUST_TARBALL    := rust-$(RUST_VERSION)-$(RUST_TRIPLE).tar.xz
+RUST_COMPONENTS := rustc,cargo,rust-std-$(RUST_TRIPLE)
+
+export PATH       := $(RUST_HOME)/bin:$(PATH)
+export CARGO_HOME := $(CURDIR)/debian/cargo-home
+export CC         := clang
+export CXX        := clang++
+
+export RELEASE_CHANNEL := stable
+export RELEASE_VERSION := $(UPSTREAM_VERSION)
+export ZED_UPDATE_EXPLANATION := Updates are handled by the Parrot package manager.
+
+%:
+	dh $@
+
+override_dh_auto_clean:
+	dh_clean
+	rm -rf $(CURDIR)/target $(CURDIR)/debian/cargo-home \
+		$(CURDIR)/debian/rust $(CURDIR)/debian/toolchain
+
+override_dh_auto_configure:
+	# nothing to configure, cargo handles it
+
+fetch-rust:
+	mkdir -p $(TOOLCHAIN_CACHE)
+	cd $(TOOLCHAIN_CACHE) && \
+		curl -fsSLO https://static.rust-lang.org/dist/$(RUST_TARBALL) && \
+		grep -F " $(RUST_TARBALL)" $(CURDIR)/debian/toolchain-checksums \
+			| sha256sum -c -
+	tar -xJf $(TOOLCHAIN_CACHE)/$(RUST_TARBALL) -C $(TOOLCHAIN_CACHE)
+	rm -rf $(RUST_HOME)
+	cd $(TOOLCHAIN_CACHE)/rust-$(RUST_VERSION)-$(RUST_TRIPLE) && \
+		./install.sh --prefix=$(RUST_HOME) --disable-ldconfig \
+			--components=$(RUST_COMPONENTS)
+	$(RUST_HOME)/bin/rustc --version
+
+override_dh_auto_build: fetch-rust
+	cargo build --locked --release --package zed --package cli
+
+override_dh_auto_test:
+
+override_dh_dwz:
+
+override_dh_auto_install:
+	install -Dm755 $(CURDIR)/target/release/cli \
+		$(CURDIR)/debian/zed/usr/bin/zed
+	install -Dm755 $(CURDIR)/target/release/zed \
+		$(CURDIR)/debian/zed/usr/libexec/zed-editor
+	mkdir -p $(CURDIR)/debian/zed/usr/share/applications
+	APP_ICON=zed envsubst '$$APP_ID $$APP_NAME $$DO_STARTUP_NOTIFY $$APP_CLI $$APP_ICON $$APP_ARGS' \
+		< $(CURDIR)/crates/zed/resources/zed.desktop.in \
+		> $(CURDIR)/debian/zed/usr/share/applications/dev.zed.Zed.desktop
+	install -Dm644 $(CURDIR)/crates/zed/resources/app-icon.png \
+		$(CURDIR)/debian/zed/usr/share/icons/hicolor/512x512/apps/zed.png
+	install -Dm644 "$(CURDIR)/crates/zed/resources/app-icon@2x.png" \
+		$(CURDIR)/debian/zed/usr/share/icons/hicolor/1024x1024/apps/zed.png

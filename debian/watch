@@ -1,0 +1,5 @@
+version=5
+
+opts=filenamemangle=s/(?:.*/)?v?(\d[\d.]+)\.tar\.gz/zed-$1.tar.gz/,\
+dversionmangle=s/-\d+(?:parrot\d*)?$// \
+https://github.com/zed-industries/zed/tags (?:.*/)?archive/refs/tags/v?(\d[\d.]+)\.tar\.gz

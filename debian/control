@@ -1,0 +1,53 @@
+Source: zed
+Section: editors
+Priority: optional
+Maintainer: Parrot Dev Team <team@parrotsec.org>
+Uploaders: Lorenzo "Palinuro" Faletra <palinuro@parrotsec.org>
+Homepage: https://zed.dev
+Standards-Version: 4.7.2
+Build-Depends:
+ debhelper-compat (= 13),
+ ca-certificates,
+ clang,
+ cmake,
+ curl,
+ gettext-base,
+ lld,
+ pkgconf,
+ xz-utils,
+ libasound2-dev,
+ libfontconfig-dev,
+ libglib2.0-dev,
+ libssl-dev,
+ libsqlite3-dev,
+ libva-dev,
+ libwayland-dev,
+ libx11-xcb-dev,
+ libxkbcommon-dev,
+ libxkbcommon-x11-dev,
+ libzstd-dev,
+ zlib1g-dev,
+Vcs-Git: https://gitlab.com/parrotsec/packages/zed.git
+Vcs-Browser: https://gitlab.com/parrotsec/packages/zed
+Rules-Requires-Root: no
+
+Package: zed
+Architecture: any
+Depends:
+ ${misc:Depends},
+ ${shlibs:Depends},
+ libwayland-client0,
+ libwayland-cursor0,
+ libxkbcommon0,
+ libxkbcommon-x11-0,
+ libx11-6,
+ libvulkan1,
+ libva2,
+Recommends:
+ pipewire,
+ xdg-desktop-portal,
+Description: fast, collaborative code editor
+ Zed is a high-performance, multiplayer code editor from Zed Industries.
+ It leverages every CPU core for instant startup, quick file loading and
+ responsive keystrokes, features language-aware editing with LSP support
+ and real-time collaboration.

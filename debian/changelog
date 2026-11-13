@@ -1,0 +1,18 @@
+zed (1.28.1-0parrot3) echo; urgency=medium
+
+  * Fix toolchain installation: rust-std components are per-target.
+
+ -- Lorenzo "Palinuro" Faletra <palinuro@parrotsec.org>  Fri, 13 Nov 2026 23:43:18 +0100
+
+zed (1.28.1-0parrot2) echo; urgency=medium
+
+  * Build with Rust 1.98.1 fetched at build time; the Parrot rustc is too old
+    to compile zed.
+
+ -- Lorenzo "Palinuro" Faletra <palinuro@parrotsec.org>  Fri, 13 Nov 2026 23:25:05 +0100
+
+zed (1.28.1-0parrot1) echo; urgency=medium
+
+  * Initial release.
+
+ -- Lorenzo "Palinuro" Faletra <palinuro@parrotsec.org>  Fri, 13 Nov 2026 23:16:59 +0100

@@ -1,0 +1,6 @@
+tar-ignore = target
+tar-ignore = debian/cargo-home
+tar-ignore = .*.swp
+tar-ignore = *~
+tar-ignore = debian/changelog.dch
+tar-ignore = debian/changelog.*.tmp
