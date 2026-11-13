@@ -62,7 +62,9 @@ override_dh_auto_install:
 	install -Dm755 $(CURDIR)/target/release/zed \
 		$(CURDIR)/debian/zed/usr/libexec/zed-editor
 	mkdir -p $(CURDIR)/debian/zed/usr/share/applications
-	APP_ICON=zed envsubst '$$APP_ID $$APP_NAME $$DO_STARTUP_NOTIFY $$APP_CLI $$APP_ICON $$APP_ARGS' \
+	APP_ID=dev.zed.Zed APP_NAME=Zed APP_CLI=zed APP_ICON=zed \
+		DO_STARTUP_NOTIFY=true APP_ARGS='%U' \
+		envsubst '$$APP_ID $$APP_NAME $$DO_STARTUP_NOTIFY $$APP_CLI $$APP_ICON $$APP_ARGS' \
 		< $(CURDIR)/crates/zed/resources/zed.desktop.in \
 		> $(CURDIR)/debian/zed/usr/share/applications/dev.zed.Zed.desktop
 	install -Dm644 $(CURDIR)/crates/zed/resources/app-icon.png \

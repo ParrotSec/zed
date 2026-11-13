@@ -1,3 +1,10 @@
+zed (1.28.1-0parrot4) echo; urgency=medium
+
+  * Fix desktop launcher: set every template variable the desktop file
+    needs, the previous rules left Name and Exec empty.
+
+ -- Lorenzo "Palinuro" Faletra <palinuro@parrotsec.org>  Sat, 14 Nov 2026 00:52:29 +0100
+
 zed (1.28.1-0parrot3) echo; urgency=medium
 
   * Fix toolchain installation: rust-std components are per-target.
