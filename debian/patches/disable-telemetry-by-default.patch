@@ -1,0 +1,54 @@
+Description: Disable telemetry by default
+ Zed enables anonymous usage metrics and diagnostic (crash report) uploads
+ by default. Parrot ships the editor with both disabled, so no telemetry is
+ collected or sent unless the user explicitly opts in through settings.
+Origin: vendor
+Forwarded: not-needed
+Author: Lorenzo "Palinuro" Faletra <palinuro@parrotsec.org>
+Last-Update: 2026-11-16
+
+Index: zed/assets/settings/default.json
+===================================================================
+--- zed.orig/assets/settings/default.json
++++ zed/assets/settings/default.json
+@@ -1717,9 +1717,9 @@
+   // Control what info is collected by Zed.
+   "telemetry": {
+     // Send debug info like crash reports.
+-    "diagnostics": true,
++    "diagnostics": false,
+     // Send anonymized usage data like what languages you're using Zed with.
+-    "metrics": true,
++    "metrics": false,
+     // Allow sending requests to Anthropic models that cannot be offered with
+     // Zero Data Retention
+     "anthropic_retention": false,
+Index: zed/crates/settings_content/src/settings_content.rs
+===================================================================
+--- zed.orig/crates/settings_content/src/settings_content.rs
++++ zed/crates/settings_content/src/settings_content.rs
+@@ -610,11 +610,11 @@ impl From<Option<String>> for AudioOutpu
+ pub struct TelemetrySettingsContent {
+     /// Send debug info like crash reports.
+     ///
+-    /// Default: true
++    /// Default: false
+     pub diagnostics: Option<bool>,
+     /// Send anonymized usage data like what languages you're using Zed with.
+     ///
+-    /// Default: true
++    /// Default: false
+     pub metrics: Option<bool>,
+     /// Allow sending requests to Anthropic models that cannot be offered with
+     /// Zero Data Retention.
+@@ -626,8 +626,8 @@ pub struct TelemetrySettingsContent {
+ impl Default for TelemetrySettingsContent {
+     fn default() -> Self {
+         Self {
+-            diagnostics: Some(true),
+-            metrics: Some(true),
++            diagnostics: Some(false),
++            metrics: Some(false),
+             anthropic_retention: Some(false),
+         }
+     }

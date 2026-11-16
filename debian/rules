@@ -21,6 +21,7 @@ export CARGO_HOME := $(CURDIR)/debian/cargo-home
 export CC         := clang
 export CXX        := clang++
 
+export CARGO_PROFILE_RELEASE_DEBUG := 0
 export RELEASE_CHANNEL := stable
 export RELEASE_VERSION := $(UPSTREAM_VERSION)
 export ZED_UPDATE_EXPLANATION := Updates are handled by the Parrot package manager.
@@ -55,6 +56,9 @@ override_dh_auto_build: fetch-rust
 override_dh_auto_test:
 
 override_dh_dwz:
+
+override_dh_strip:
+	dh_strip --no-automatic-dbgsym
 
 override_dh_auto_install:
 	install -Dm755 $(CURDIR)/target/release/cli \

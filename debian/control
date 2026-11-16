@@ -37,10 +37,6 @@ Depends:
  ${misc:Depends},
  ${shlibs:Depends},
  libwayland-client0,
- libwayland-cursor0,
- libxkbcommon0,
- libxkbcommon-x11-0,
- libx11-6,
  libvulkan1,
  libva2,
 Recommends:

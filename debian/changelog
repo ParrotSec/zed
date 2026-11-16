@@ -1,3 +1,13 @@
+zed (1.28.1-0parrot5) echo; urgency=medium
+
+  * Fix debian/watch: use version=4, drop broken filenamemangle
+  * Drop runtime libraries already covered by ${shlibs:Depends}.
+  * Do not ship the automatic debug symbols package.
+  * Build without release debug info.
+  * Disable telemetry (metrics and diagnostics) by default.
+
+ -- Lorenzo "Palinuro" Faletra <palinuro@parrotsec.org>  Mon, 16 Nov 2026 17:53:06 +0100
+
 zed (1.28.1-0parrot4) echo; urgency=medium
 
   * Fix desktop launcher: set every template variable the desktop file
