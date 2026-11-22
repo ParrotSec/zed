@@ -1,3 +1,9 @@
+zed (1.29.3-0parrot1) echo; urgency=medium
+
+  * New upstream version 1.29.3
+
+ -- Lorenzo "Palinuro" Faletra <palinuro@parrotsec.org>  Sun, 22 Nov 2026 21:49:52 +0100
+
 zed (1.28.1-0parrot5) echo; urgency=medium
 
   * Fix debian/watch: use version=4, drop broken filenamemangle
