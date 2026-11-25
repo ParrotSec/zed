@@ -1,3 +1,9 @@
+zed (1.30.2-0parrot1) echo; urgency=medium
+
+  * New upstream version 1.30.2
+
+ -- Lorenzo "Palinuro" Faletra <palinuro@parrotsec.org>  Wed, 25 Nov 2026 23:22:05 +0100
+
 zed (1.29.3-0parrot1) echo; urgency=medium
 
   * New upstream version 1.29.3
